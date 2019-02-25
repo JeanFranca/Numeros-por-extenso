@@ -22,8 +22,7 @@ class AllNumbers:
             return False
 
     def convertNumbers(self):
-        vet = [None]
-        vet.pop(0)
+        vet = []
         for i in range(len(self.invertedNum)):
             #essa parte traduz a unidade e diz o tipo do numero
             if (i % 3) == 0:
