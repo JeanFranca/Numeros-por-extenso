@@ -20,6 +20,7 @@ class Number:
             self._literal = self.to_literal()
         return self._literal 
 
+
     def to_literal(self):
         inverted_number = self._num[::-1]
         vet = []
@@ -33,6 +34,7 @@ class Number:
                     
                 if(((i + 1) < len(inverted_number)) and (int(inverted_number[i + 1]) != 1)):
                     vet.append(Number.units[int(inverted_number[i])])                
+
             #já essa parte traduz a dezena
             elif (i % 3) == 1:
                 if(int(inverted_number[i]) == 1):
@@ -53,5 +55,6 @@ class Number:
                         vet.append(Number.hundreds[int(inverted_number[i])])
                 else:
                     vet.append(Number.hundreds[int(inverted_number[i])])
+
         vet = vet[::-1]
         return " ".join(vet)
