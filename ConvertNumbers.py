@@ -1,66 +1,60 @@
 import math
 
-units = ["","um", "dois", "três", "quatro", "cinco", "seis", "sete", "oito", "nove"]
-tenth = ["","dez", "vinte", "trinta", "quarenta", "cinquenta", "sessenta", "setenta", "oitenta", "noventa"]
-hundreds = ["","cem", "duzentos", "trezentos", "quatrocentos", "quinhentos", "seiscentos", "setecentos", "oitocentos", "novecentos"]
-primaryTens = ["dez", "onze", "doze", "treze", "quatorze", "quinze", "dezesseis", "dezessete", "dezoito", "dezenove"]
-numberType = ["", "mil","milhão", "bilhão", "trilhão", "quatrilhão"]
-numbersType = ["", "mil", "milhões", "bilhões", "trilhões", "quatrilhões"]
-
-class AllNumbers:  
+class Number:  
+    units = ["","um", "dois", "três", "quatro", "cinco", "seis", "sete", "oito", "nove"]
+    dozens = ["","dez", "vinte", "trinta", "quarenta", "cinquenta", "sessenta", "setenta", "oitenta", "noventa"]
+    hundreds = ["","cem", "duzentos", "trezentos", "quatrocentos", "quinhentos", "seiscentos", "setecentos", "oitocentos", "novecentos"]
+    primaryTens = ["dez", "onze", "doze", "treze", "quatorze", "quinze", "dezesseis", "dezessete", "dezoito", "dezenove"]
+    numberType = ["", "mil","milhão", "bilhão", "trilhão", "quatrilhão"]
+    numbersType = ["", "mil", "milhões", "bilhões", "trilhões", "quatrilhões"]
 
     def __init__(self, num):
-        self.num = num
-        self.invertedNum = str(self.num[::-1])
+        if not num.isdigit():
+            raise ValueError("Invalid number {} provided".format(num))
+        self._num = num
+        self._literal = None
+    
+    @property
+    def literal(self):
+        if self._literal == None:
+            self._literal = self.to_literal()
+        return self._literal 
 
-    #this function verifies that you have received only numbers
-    def startConvert(self):
-        n = self.num
-        return n.isdigit()
 
-    def convertNumbers(self):
+    def to_literal(self):
+        inverted_number = self._num[::-1]
         vet = []
-        for i in range(len(self.invertedNum)):
+        for i in range(len(inverted_number)):
             #essa parte traduz a unidade e diz o tipo do numero
             if (i % 3) == 0:
-
-                if (int(self.invertedNum[i]) > 1) and ((i - 1 > 0) or (i - 2 > 0)):
-                    vet.append(numbersType[math.floor(i / 3)])
+                if (int(inverted_number[i]) > 1) and ((i - 1 > 0) or (i - 2 > 0)):
+                    vet.append(Number.numbersType[int(i / 3)])
                 else:
-                    vet.append(numberType[math.floor(i / 3)])
+                    vet.append(Number.numberType[int(i / 3)])
                     
-                if(((i + 1) < len(self.invertedNum)) and (int(self.invertedNum[i + 1]) != 1)):
-                    vet.append(units[int(self.invertedNum[i])])
-                
+                if(((i + 1) < len(inverted_number)) and (int(inverted_number[i + 1]) != 1)):
+                    vet.append(Number.units[int(inverted_number[i])])                
+
             #já essa parte traduz a dezena
             elif (i % 3) == 1:
-                if(int(self.invertedNum[i]) == 1):
-                    vet.append(primaryTens[int(self.invertedNum[i - 1])])
+                if(int(inverted_number[i]) == 1):
+                    vet.append(Number.primaryTens[int(inverted_number[i - 1])])
                 else:
-                    if(int(self.invertedNum[i - 1])!=0):
-                        vet.append(tenth[int(self.invertedNum[i])] + " e")
+                    if(int(inverted_number[i - 1])!=0):
+                        vet.append(Number.dozens[int(inverted_number[i])] + " e")
                     else:
-                        vet.append(tenth[int(self.invertedNum[i])])
-                
+                        vet.append(Number.dozens[int(inverted_number[i])])
             #e por ultimo essa parte traduz a centena
             else:
-                if(int(self.invertedNum[i]) == 1):
-                    if((int(self.invertedNum[i - 1]) != 0) or (int(self.invertedNum[i - 2]) != 0)):
+                if(int(inverted_number[i]) == 1):
+                    if(int(inverted_number[i - 1]) != 0):
+                        vet.append("cento e")
+                    elif(int(inverted_number[i - 2]) != 0):
                         vet.append("cento e")
                     else:
-                        vet.append(hundreds[int(self.invertedNum[i])])
+                        vet.append(Number.hundreds[int(inverted_number[i])])
                 else:
-                    if((int(self.invertedNum[i - 1]) != 0) or (int(self.invertedNum[i - 2]) != 0)):
-                        vet.append(hundreds[int(self.invertedNum[i])] + " e")
-                    else:
-                        vet.append(hundreds[int(self.invertedNum[i])])
-        vet = vet[::-1]
-        return vet
+                    vet.append(Number.hundreds[int(inverted_number[i])])
 
-    def createString(self, vet):
-        extendedNum = ""
-        for i in range(len(vet)):
-            if vet[i] != " e":
-                extendedNum += vet[i]
-                extendedNum += " "
-        print(extendedNum)
+        vet = vet[::-1]
+        return " ".join(vet)

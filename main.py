@@ -1,12 +1,13 @@
 
-from ConvertNumbers import AllNumbers
+from ConvertNumbers import Number
 num = input('Digite um número: ')
 
 if num != '0':
-    n = AllNumbers(num)
-    if n.startConvert():
-        vetor = n.convertNumbers()
-        n.createString(vetor)
+    try: 
+        n = Number(num)
+        print (n.literal)
+    except ValueError:
+        print("Valor inválido")
 else:
     print("zero")
 
