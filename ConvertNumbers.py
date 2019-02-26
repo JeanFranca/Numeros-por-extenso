@@ -27,21 +27,21 @@ class Number:
             #essa parte traduz a unidade e diz o tipo do numero
             if (i % 3) == 0:
                 if (int(inverted_number[i]) > 1) and ((i - 1 > 0) or (i - 2 > 0)):
-                    vet.append(self.numbersType[int(i / 3)])
+                    vet.append(Number.numbersType[int(i / 3)])
                 else:
-                    vet.append(self.numberType[int(i / 3)])
+                    vet.append(Number.numberType[int(i / 3)])
                     
                 if(((i + 1) < len(inverted_number)) and (int(inverted_number[i + 1]) != 1)):
-                    vet.append(self.units[int(inverted_number[i])])                
+                    vet.append(Number.units[int(inverted_number[i])])                
             #já essa parte traduz a dezena
             elif (i % 3) == 1:
                 if(int(inverted_number[i]) == 1):
-                    vet.append(self.primaryTens[int(inverted_number[i - 1])])
+                    vet.append(Number.primaryTens[int(inverted_number[i - 1])])
                 else:
                     if(int(inverted_number[i - 1])!=0):
-                        vet.append(self.dozens[int(inverted_number[i])] + " e")
+                        vet.append(Number.dozens[int(inverted_number[i])] + " e")
                     else:
-                        vet.append(self.dozens[int(inverted_number[i])])
+                        vet.append(Number.dozens[int(inverted_number[i])])
             #e por ultimo essa parte traduz a centena
             else:
                 if(int(inverted_number[i]) == 1):
@@ -50,8 +50,8 @@ class Number:
                     elif(int(inverted_number[i - 2]) != 0):
                         vet.append("cento e")
                     else:
-                        vet.append(self.hundreds[int(inverted_number[i])])
+                        vet.append(Number.hundreds[int(inverted_number[i])])
                 else:
-                    vet.append(self.hundreds[int(inverted_number[i])])
+                    vet.append(Number.hundreds[int(inverted_number[i])])
         vet = vet[::-1]
         return " ".join(vet)
